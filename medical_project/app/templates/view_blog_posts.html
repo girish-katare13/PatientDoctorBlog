@@ -1,0 +1,60 @@
+{% extends 'signup.html' %}
+{% block content %}
+<h1 class="text-center">Blog Posts</h1>
+
+<!-- Create a dropdown for selecting categories -->
+<select id="categorySelect" class="form-select mb-3">
+    <option value="">All Categories</option>
+    <option value="Mental Health">Mental Health</option>
+    <option value="Heart Disease">Heart Disease</option>
+    <option value="Covid19">COVID-19</option>
+    <option value="Immunization">Immunization</option>
+    <!-- Add more categories as needed -->
+</select>
+
+<!-- Container for displaying blog posts -->
+<div id="blogPostsContainer" class="row"></div>
+
+<script>
+    // Function to fetch and render blog posts based on selected category
+    function fetchBlogPosts(category) {
+        // Replace '/api/blog-posts/' with your actual endpoint URL
+        var url = '/api/blog-posts/?category=' + category;
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => renderBlogPosts(data));
+    }
+
+    // Function to render blog posts
+    function renderBlogPosts(posts) {
+        var container = document.getElementById('blogPostsContainer');
+        container.innerHTML = '';
+
+        posts.forEach(post => {
+            var postDiv = document.createElement('div');
+            postDiv.className = 'col-md-4 mb-4'; // Bootstrap grid classes
+            postDiv.innerHTML = `
+                <div class="card h-100 border">
+                    <div class="card-body">
+                        <h2 class="card-title">${post.title}</h2>
+                        <img src="${post.image}" class="card-img-top" alt="${post.title}" style="width: 100%; height: auto;">
+                        <p class="card-text mt-3">${post.summary}</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(postDiv);
+        });
+    }
+
+    // Event listener for category selection
+    var categorySelect = document.getElementById('categorySelect');
+    categorySelect.addEventListener('change', function() {
+        var selectedCategory = categorySelect.value;
+        fetchBlogPosts(selectedCategory);
+    });
+
+    // Initial fetch for all blog posts
+    fetchBlogPosts('');
+</script>
+{% endblock content %}

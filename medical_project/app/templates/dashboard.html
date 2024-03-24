@@ -1,0 +1,71 @@
+{% extends 'signup.html' %}
+
+{% block content %}
+    <style>
+        .dashboard {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-details p {
+            margin-bottom: 10px;
+        }
+
+        .user-details {
+            margin-bottom: 20px;
+        }
+
+        .user-photo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-photo img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 50%;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="dashboard">
+                    <h1>Welcome to the Dashboard</h1>
+                    <div class="user-photo">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <div class="no-profile-picture">
+                                No Profile Picture Available
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="user-details">
+                        <p>Hello, {{ user.username }}!</p>
+                        <p>Email: {{ user.email }}</p>
+                        <p>First Name: {{ user.first_name }}</p>
+                        <p>Last Name: {{ user.last_name }}</p>
+                        <p>Address Line 1: {{ user.address_line1 }}</p>
+                        <p>City: {{ user.city }}</p>
+                        <p>State: {{ user.state }}</p>
+                        <p>Pincode: {{ user.pincode }}</p>
+                        <p>User Type: {{ user.user_type }}</p>
+                    </div>
+                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Signup</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+    .signup-form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .signup-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .signup-form .form-group {
+      margin-bottom: 20px;
+    }
+    .signup-form label {
+      font-weight: bold;
+    }
+    .signup-form button {
+      width: 100%;
+    }
+  
+
+    .navbar-nav {
+      margin-left: auto; /* Align navbar items to the right */
+      padding-left: 0; /* Remove default padding */
+      list-style: none; /* Remove bullet points */
+    }
+
+    .navbar-nav .nav-item {
+      margin-left: 10px; /* Add spacing between navbar items */
+    }
+
+    .navbar-nav .nav-link {
+      padding: 10px 20px; /* Add padding to make the buttons larger */
+      border-radius: 5px; /* Add rounded corners to buttons */
+      background-color: #007bff; /* Set background color */
+      color: #fff; /* Set text color */
+      margin-right: 10px; /* Add spacing between navbar items */
+    }
+
+    .navbar-nav .nav-link:first-child {
+      margin-left: auto; /* Align the first item to the right */
+    }
+
+    .navbar {
+      margin-top: 20px; /* Add space from the top */
+    }
+
+    .navbar-nav .nav-link:last-child {
+      margin-right: 0; /* Remove the right margin of the last item */
+    }
+
+    .navbar-nav .nav-link:hover {
+      background-color: #0056b3; /* Change background color on hover */
+      color: #fff; /* Change text color on hover */
+    }
+
+  </style>
+</head>
+<body>
+{% block nav %}
+<!-- dashboard.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+
+    <!-- Links -->
+    <ul class="navbar-nav ms-auto">
+      <!-- If user is authenticated -->
+      {% if user.is_authenticated %}
+        <!-- If user is a doctor, show Create Blog Post link -->
+        {% if user.user_type == 'doctor' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_blog_post' %}">Create Blog Post</a>
+          </li>
+        {% endif %}
+        <!-- Always show View Blog Posts link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_blog_posts' %}">View Blog Posts</a>
+        </li>
+        <!-- Dashboard link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+        </li>
+        <!-- Logout link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      <!-- If user is not authenticated -->
+      {% else %}
+        <!-- Signin and Signup links -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Signin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% endblock nav %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="signup-form">
+        <h2>Signup</h2>
+        <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="{{ form.user_type.id_for_label }}">User Type</label>
+            {{ form.user_type }}
+            <span class="text-danger">{% for error in form.user_type.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+            <span class="text-danger">{% for error in form.username.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            {{ form.first_name }}
+            <span class="text-danger">{% for error in form.first_name.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {{ form.last_name }}
+            <span class="text-danger">{% for error in form.last_name.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            <span class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.address_line1.id_for_label }}">Address</label>
+            {{ form.address_line1 }}
+            <span class="text-danger">{% for error in form.address_line1.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.profile_picture.id_for_label }}">Profile Picture</label>
+            {{ form.profile_picture }}
+            <span class="text-danger">{% for error in form.profile_picture.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.city.id_for_label }}">City</label>
+            {{ form.city }}
+            <span class="text-danger">{% for error in form.city.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.state.id_for_label }}">State</label>
+            {{ form.state }}
+            <span class="text-danger">{% for error in form.state.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.pincode.id_for_label }}">Pincode</label>
+            {{ form.pincode }}
+            <span class="text-danger">{% for error in form.pincode.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            <span class="text-danger">{% for error in form.password1.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {{ form.password2 }}
+            <span class="text-danger">{% for error in form.password2.errors %}{{ error }}{% endfor %}</span>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <p class="text-center">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+</body>
+</html>

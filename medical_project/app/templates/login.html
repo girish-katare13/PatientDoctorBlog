@@ -1,0 +1,22 @@
+{% extends 'signup.html' %}
+{% block content %}
+<div class="col-sm-6">
+    <h2 class="text-muted">Login</h2>
+    <form method="post" action={% url 'login' %}>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{form.username.id_for_user}}">Username</label>
+            <input type="text" name="{{form.username.name}}" class="form-control" placeholder="Enter your username" required">
+            <span class="text-danger">{{form.username.errors}}</span>
+        </div>
+        <div class="form-group">
+            <label for="{{form.password.id_for_user}}">Password</label>
+            <input type="password" name="{{form.password.name}}" class="form-control" placeholder="Enter your password" required">
+            <span class="text-danger">{{form.password.errors}}</span>
+        </div>
+        <button type="submit" class="btn btn-dark">Login</button>
+
+        <a href= "{% url 'signup' %}"> Signup page</a>
+    </form>
+</div>
+{% endblock content %}
