@@ -26,6 +26,16 @@
             .then(data => renderBlogPosts(data));
     }
 
+    // Function to truncate the summary to 15 words and append '...' if needed
+    function truncateSummary(summary) {
+        var words = summary.split(' ');
+        if (words.length > 15) {
+            return words.slice(0, 15).join(' ') + '...';
+        } else {
+            return summary;
+        }
+    }
+
     // Function to render blog posts
     function renderBlogPosts(posts) {
         var container = document.getElementById('blogPostsContainer');
@@ -39,7 +49,7 @@
                     <div class="card-body">
                         <h2 class="card-title">${post.title}</h2>
                         <img src="${post.image}" class="card-img-top" alt="${post.title}" style="width: 100%; height: auto;">
-                        <p class="card-text mt-3">${post.summary}</p>
+                        <p class="card-text mt-3">${truncateSummary(post.summary)}</p>
                     </div>
                 </div>
             `;

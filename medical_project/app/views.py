@@ -65,7 +65,7 @@ def blog_posts_api_view(request):
     user = request.user
 
     if user.user_type == 'doctor':
-        blog_posts = BlogPost.objects.filter(author=user, is_draft=False)
+        blog_posts = BlogPost.objects.filter(author=user)
     elif category:
         blog_posts = BlogPost.objects.filter(category__name=category, is_draft=False)
     else:
